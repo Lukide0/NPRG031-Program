@@ -10,5 +10,10 @@ class Program
             Console.WriteLine("Failed to setup terminal");
             return;
         }
+
+        // prepare terminal 150x50
+        Terminal term = new Terminal(150,50);
+        App app = new App(term);
+        app.Run();
     }
 }
