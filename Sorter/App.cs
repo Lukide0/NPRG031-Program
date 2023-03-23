@@ -21,8 +21,8 @@ public class App
 
     private Switch SwitchAlgo;
 
-    private string[] _sortsName = new string[] { "Bubble sort", "Heap sort" };
-    private Sort.SortAlgo[] _sortsFunc = new Sort.SortAlgo[] { Sort.BubbleSort, Sort.HeapSort };
+    private string[] _sortsName = new string[] { "Bubble sort", "Heap sort", "Counting sort" };
+    private Sort.SortAlgo[] _sortsFunc = new Sort.SortAlgo[] { Sort.BubbleSort, Sort.HeapSort, Sort.CountingSort };
 
     public App(Terminal term)
     {
@@ -73,6 +73,7 @@ public class App
     {
         AlgoNode.SetAlgo(Sort.HeapSort);
 
+        Term.Setup();
         Terminal.SetBlockRead();
         Term.Loop();
         Term.Clean();

@@ -149,16 +149,26 @@ public class Algo : Tuif.Dom.Node
 
         SortData data = _sortData[_dataIndex++];
 
-        if (data.Swap) 
+        switch (data.Command)
         {
+        case SortData.Commands.Swap:
             int tmp = _elements[data.IndexA];
             _elements[data.IndexA] = _elements[data.IndexB];
             _elements[data.IndexB] = tmp;
-
+            
+            _primaryIndex = data.IndexA;
+            _secondaryIndex = data.IndexB;
+            break;
+        case SortData.Commands.Highlight:
+            _primaryIndex = data.IndexA;
+            _secondaryIndex = data.IndexB;
+            break;
+        case SortData.Commands.Set:
+            _elements[data.IndexA] = data.IndexB;
+            _primaryIndex = data.IndexA;
+            _secondaryIndex = -1;
+            break;
         }
-
-        _primaryIndex = data.IndexA;
-        _secondaryIndex = data.IndexB;
 
         Terminal.RequestRender();
     }

@@ -2,15 +2,21 @@ namespace Sorter.Algo;
 
 public class SortData
 {
+    public enum Commands
+    {
+        Swap,
+        Highlight,
+        Set,
+    };
     public int IndexA;
     public int IndexB;
-    public bool Swap;
+    public Commands Command;
 
-    public SortData(int a, int b, bool swap = true)
+    public SortData(int a, int b, Commands command = Commands.Swap)
     {
         IndexA = a;
         IndexB = b;
-        Swap = swap;
+        Command = command;
     }
 }
 
@@ -26,7 +32,7 @@ public static class Sort
         {
             for (int j = 0; j < elements.Length - i - 1; j++)
             {
-                data.Add(new SortData(j, j + 1, false));
+                data.Add(new SortData(j, j + 1, SortData.Commands.Highlight));
                 if (elements[j] > elements[j + 1])
                 {
                     int tmp = elements[j];
@@ -69,7 +75,7 @@ public static class Sort
 
         if (leftChild < size)
         {
-            data.Add(new SortData(leftChild, largestIndex, false));
+            data.Add(new SortData(leftChild, largestIndex, SortData.Commands.Highlight));
             if (array[leftChild] > array[largestIndex])
             {
                 largestIndex = leftChild;
@@ -78,8 +84,8 @@ public static class Sort
 
         if (rightChild < size)
         {
-            data.Add(new SortData(rightChild, largestIndex, false));
-            
+            data.Add(new SortData(rightChild, largestIndex, SortData.Commands.Highlight));
+
             if (array[rightChild] > array[largestIndex])
             {
                 largestIndex = rightChild;
@@ -93,14 +99,52 @@ public static class Sort
             int tempVar = array[index];
             array[index] = array[largestIndex];
             array[largestIndex] = tempVar;
-         
+
             Heapify(array, size, largestIndex, data);
         }
     }
 
-    public static List<SortData> MergeSort(int[] elements) 
+
+    public static List<SortData> CountingSort(int[] elements)
     {
         List<SortData> data = new List<SortData>();
+
+        int size = elements.Length;
+        int maxElement = elements[0];
+        int maxElementIndex = 0;
+
+        for (int i = 1; i < size; i++)
+        {
+            data.Add(new SortData(i, maxElementIndex, SortData.Commands.Highlight));
+            if (elements[i] > maxElement)
+            {
+                maxElement = elements[i];
+                maxElementIndex = i;
+            }
+
+        }
+
+        int[] occurrences = new int[maxElement + 1];
+
+        for (int i = 0; i < maxElement + 1; i++)
+        {
+            occurrences[i] = 0;
+        }
+
+        for (int i = 0; i < size; i++)
+        {
+            occurrences[elements[i]]++;
+        }
+        for (int i = 0, j = 0; i <= maxElement; i++)
+        {
+            while (occurrences[i] > 0)
+            {
+                data.Add(new SortData(j, i, SortData.Commands.Set));
+                elements[j] = i;
+                j++;
+                occurrences[i]--;
+            }
+        }
 
         return data;
     }

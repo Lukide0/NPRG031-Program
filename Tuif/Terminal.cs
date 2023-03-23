@@ -242,7 +242,6 @@ public class Terminal
     private const uint DISABLE_NEWLINE_AUTO_RETURN = 0x0008;
     private const uint ENABLE_WRAP_AT_EOL_OUTPUT = 0x0002;
 
-
     [DllImport("kernel32.dll")]
     private static extern bool GetConsoleMode(IntPtr hConsoleHandle, out uint lpMode);
 
