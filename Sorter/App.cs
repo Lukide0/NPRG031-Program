@@ -71,7 +71,7 @@ public class App
 
     public void Run()
     {
-        AlgoNode.SetAlgo(Sort.HeapSort);
+        //AlgoNode.SetAlgo(Sort.HeapSort);
 
         Term.Setup();
         Terminal.SetBlockRead();
