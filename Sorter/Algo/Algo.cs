@@ -10,8 +10,8 @@ public class Algo : Tuif.Dom.Node
 
     private int[] _elements;
     private int _elementsCount;
-    private Color _primaryColor = new Color(0xe56399);
-    private Color _secondaryColor = new Color(0x7f96ff);
+    private Color _primaryColor;
+    private Color _secondaryColor;
 
     private List<SortData> _sortData = new List<SortData>();
     private int _dataIndex = 0;
@@ -148,6 +148,8 @@ public class Algo : Tuif.Dom.Node
         }
 
         SortData data = _sortData[_dataIndex++];
+        _primaryColor = data.ColorA;
+        _secondaryColor = data.ColorB;
 
         switch (data.Command)
         {

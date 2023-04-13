@@ -21,8 +21,8 @@ public class App
 
     private Switch SwitchAlgo;
 
-    private string[] _sortsName = new string[] { "Bubble sort", "Heap sort", "Counting sort" };
-    private Sort.SortAlgo[] _sortsFunc = new Sort.SortAlgo[] { Sort.BubbleSort, Sort.HeapSort, Sort.CountingSort };
+    private string[] _sortsName = new string[] { "Bubble sort", "Heap sort", "Counting sort", "Quick sort" };
+    private Sort.SortAlgo[] _sortsFunc = new Sort.SortAlgo[] { Sort.BubbleSort, Sort.HeapSort, Sort.CountingSort, Sort.QuickSort };
 
     public App(Terminal term)
     {

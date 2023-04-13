@@ -8,15 +8,47 @@ public class SortData
         Highlight,
         Set,
     };
+ 
+    public static Tuif.Color SwapAColor = new Tuif.Color(0xFE7F2D);
+    public static Tuif.Color SwapBColor = new Tuif.Color(0x8B80F9);
+ 
+    public static Tuif.Color HighlightAColor = new Tuif.Color(0xFEC29A);
+    public static Tuif.Color HighlightBColor = new Tuif.Color(0xADE7FF);
     public int IndexA;
+    public Tuif.Color ColorA = SwapAColor;
     public int IndexB;
+    public Tuif.Color ColorB = SwapBColor;
     public Commands Command;
 
+    public SortData(int a, int b, Tuif.Color colorA, Tuif.Color colorB, Commands command = Commands.Swap) 
+    {
+        IndexA = a;
+        ColorA = colorA;
+        IndexB = b;
+        ColorB = colorB;
+        Command = command;
+
+    }
     public SortData(int a, int b, Commands command = Commands.Swap)
     {
         IndexA = a;
         IndexB = b;
         Command = command;
+    }
+
+    public static SortData Swap(int a, int b) 
+    {
+        return new SortData(a, b, SortData.Commands.Swap);
+    }
+
+    public static SortData Highlight(int a, int b) 
+    {
+        return new SortData(a, b, HighlightAColor, HighlightBColor, Commands.Highlight);
+    }
+
+    public static SortData Set(int a, int value) 
+    {
+        return new SortData(a, value, Commands.Set);
     }
 }
 
@@ -32,13 +64,13 @@ public static class Sort
         {
             for (int j = 0; j < elements.Length - i - 1; j++)
             {
-                data.Add(new SortData(j, j + 1, SortData.Commands.Highlight));
+                data.Add(SortData.Highlight(j, j + 1));
                 if (elements[j] > elements[j + 1])
                 {
                     int tmp = elements[j];
                     elements[j] = elements[j + 1];
                     elements[j + 1] = tmp;
-                    data.Add(new SortData(j + 1, j));
+                    data.Add(SortData.Swap(j + 1, j));
                 }
             }
         }
@@ -56,7 +88,7 @@ public static class Sort
         }
         for (int i = size - 1; i >= 0; i--)
         {
-            data.Add(new SortData(0, i));
+            data.Add(SortData.Swap(0, i));
 
             var tempVar = elements[0];
             elements[0] = elements[i];
@@ -75,7 +107,7 @@ public static class Sort
 
         if (leftChild < size)
         {
-            data.Add(new SortData(leftChild, largestIndex, SortData.Commands.Highlight));
+            data.Add(SortData.Highlight(leftChild, largestIndex));
             if (array[leftChild] > array[largestIndex])
             {
                 largestIndex = leftChild;
@@ -84,7 +116,7 @@ public static class Sort
 
         if (rightChild < size)
         {
-            data.Add(new SortData(rightChild, largestIndex, SortData.Commands.Highlight));
+            data.Add(SortData.Highlight(rightChild, largestIndex));
 
             if (array[rightChild] > array[largestIndex])
             {
@@ -94,7 +126,7 @@ public static class Sort
 
         if (largestIndex != index)
         {
-            data.Add(new SortData(index, largestIndex));
+            data.Add(SortData.Swap(index, largestIndex));
 
             int tempVar = array[index];
             array[index] = array[largestIndex];
@@ -115,7 +147,7 @@ public static class Sort
 
         for (int i = 1; i < size; i++)
         {
-            data.Add(new SortData(i, maxElementIndex, SortData.Commands.Highlight));
+            data.Add(SortData.Highlight(i, maxElementIndex));
             if (elements[i] > maxElement)
             {
                 maxElement = elements[i];
@@ -139,7 +171,7 @@ public static class Sort
         {
             while (occurrences[i] > 0)
             {
-                data.Add(new SortData(j, i, SortData.Commands.Set));
+                data.Add(SortData.Set(j, i));
                 elements[j] = i;
                 j++;
                 occurrences[i]--;
@@ -147,5 +179,54 @@ public static class Sort
         }
 
         return data;
+    }
+
+    public static List<SortData> QuickSort(int[] elements) 
+    {
+        List<SortData> data = new List<SortData>();
+
+        QuickSortArray(elements, 0, elements.Length - 1, data);
+
+        return data;
+    }
+
+    private static void QuickSortArray(int[] array, int leftIndex, int rightIndex, List<SortData> data)
+    {
+        var i = leftIndex;
+        var j = rightIndex;
+        var pivot = array[leftIndex];
+        while (i <= j)
+        {
+            while (array[i] < pivot)
+            {
+                data.Add(SortData.Highlight(pivot, i));
+                i++;
+            }
+
+            while (array[j] > pivot)
+            {
+                data.Add(SortData.Highlight(pivot, j));
+                j--;
+            }
+            if (i <= j)
+            {
+                data.Add(SortData.Highlight(i, j));
+                data.Add(SortData.Swap(j, i));
+                int temp = array[i];
+                array[i] = array[j];
+                array[j] = temp;
+                i++;
+                j--;
+            }
+        }
+
+        if (leftIndex < j) 
+        {
+            QuickSortArray(array, leftIndex, j, data);
+        }
+        if (i < rightIndex) 
+        {
+            QuickSortArray(array, i, rightIndex, data);
+        }
     }
 }
