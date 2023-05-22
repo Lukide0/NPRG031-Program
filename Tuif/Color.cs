@@ -5,7 +5,6 @@ public class Color
     public static readonly Color DefaultBackground = new Color(0x151820);
     public static readonly Color DefaultForeground = new Color(255,255,255);
 
-
     public byte R;
     public byte G;
     public byte B;
@@ -19,7 +18,7 @@ public class Color
 
     public Color(uint hex) 
     {
-        // remove high 8 bits from uint, so we have 0xRRGGBB
+        // zachová jen 8 spodních bitů => 0xRRGGBB
         hex &= 0xFFFFFF;
 
         this.R = (byte)(hex >> 16);

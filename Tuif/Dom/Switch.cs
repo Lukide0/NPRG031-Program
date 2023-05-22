@@ -25,6 +25,7 @@ public class Switch : Node
         Selected = 0;
     }
 
+    /// <inheritdoc/>
     public override bool HandleKey(ConsoleKeyInfo info, ref Node focusedNode)
     {
         switch (info.Key)

@@ -1,7 +1,13 @@
 namespace Tuif.Dom;
 
-public static class BorderChar 
+public static class BorderChar
 {
+    /// <summary>
+    /// Metoda pro spojení dvou znaků na základě typu ohraničení.
+    /// </summary>
+    /// <param name="oldChar">Původní znak.</param>
+    /// <param name="newChar">Nový znak.</param>
+    /// <returns>Znak vzniklý spojením původního a nového znaku na základě typu ohraničení.</returns>
     public static char MergeChars(char oldChar, char newChar)
     {
         Border a = LookupBorder(oldChar), b = LookupBorder(newChar);
@@ -16,6 +22,11 @@ public static class BorderChar
         }
     }
 
+    /// <summary>
+    /// Metoda pro vyhledání znaku pro zadaný typ ohraničení.
+    /// </summary>
+    /// <param name="border">Typ ohraničení.</param>
+    /// <returns>Znak pro zadaný typ ohraničení.</returns>
     public static char LookupChar(Border border)
     {
         switch (border)
@@ -75,7 +86,11 @@ public static class BorderChar
         }
     }
 
-
+    /// <summary>
+    /// Metoda pro vyhledání typu ohraničení na základě zadaného znaku.
+    /// </summary>
+    /// <param name="ch">Znak použitý pro vyhledání typu ohraničení.</param>
+    /// <returns>Typ ohraničení.</returns>
     public static Border LookupBorder(char ch)
     {
         switch (ch)
@@ -136,6 +151,9 @@ public static class BorderChar
     }
 }
 
+/// <summary>
+/// Typ ohraničení
+/// </summary>
 [Flags]
 public enum Border
 {

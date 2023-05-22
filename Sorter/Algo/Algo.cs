@@ -10,8 +10,8 @@ public class Algo : Tuif.Dom.Node
 
     private int[] _elements;
     private int _elementsCount;
-    private Color _primaryColor;
-    private Color _secondaryColor;
+    private Color _primaryColor = SortData.HighlightAColor;
+    private Color _secondaryColor = SortData.HighlightBColor;
 
     private List<SortData> _sortData = new List<SortData>();
     private int _dataIndex = 0;
@@ -31,6 +31,9 @@ public class Algo : Tuif.Dom.Node
         Init();
     }
 
+    /// <summary>
+    /// Resetuje animaci a vygeneruje nové pole
+    /// </summary>
     public void Reset()
     {
         _elementsCount = (ushort)Math.Min(_width / 2, _height);
@@ -46,6 +49,9 @@ public class Algo : Tuif.Dom.Node
         Terminal.RequestRender();
     }
 
+    /// <summary>
+    /// Připraví instrukce
+    /// </summary>
     private void Init()
     {
         IsSorted = false;
@@ -56,23 +62,34 @@ public class Algo : Tuif.Dom.Node
         _sortData = Algorithm(tmp);
     }
 
+    /// <summary>
+    /// Nastaví třídící algorimus
+    /// </summary>
+    /// <param name="algo"></param>
     public void SetAlgo(Sort.SortAlgo algo) 
     {
         Algorithm = algo;
     }
 
+    /// <summary>
+    /// Spustí celou animaci
+    /// </summary>
     public void Run()
     {
         Terminal.SetNonBlockRead();
         _run = true;
     }
 
+    /// <summary>
+    /// Zastaví animaci
+    /// </summary>
     public void Stop()
     {
         Terminal.SetBlockRead();
         _run = false;
     }
 
+    /// <inheritdoc/>
     public override void UpdateSize(uint width, uint height)
     {
         uint tmpWidth = _width;
@@ -95,6 +112,11 @@ public class Algo : Tuif.Dom.Node
         }
     }
 
+    /// <summary>
+    /// Provede 1 krok animace, pokud není pole setřízeno
+    /// </summary>
+    /// <param name="delta"></param>
+    /// <returns>True, pokud je animace u konce</returns>
     public bool RunStep(float delta)
     {
         if (IsSorted)
@@ -110,6 +132,7 @@ public class Algo : Tuif.Dom.Node
         return _run;
     }
 
+    /// <inheritdoc/>
     public override bool HandleKey(ConsoleKeyInfo info, ref Node focusedNode)
     {
         switch (info.Key)
@@ -135,6 +158,9 @@ public class Algo : Tuif.Dom.Node
         return true;
     }
 
+    /// <summary>
+    /// Provede 1 krok animace
+    /// </summary>
     public void Step()
     {
         if (_dataIndex >= _sortData.Count)
@@ -175,6 +201,7 @@ public class Algo : Tuif.Dom.Node
         Terminal.RequestRender();
     }
 
+    /// <inheritdoc/> 
     public override void Render(Tuif.Buffer buff)
     {
         for (uint i = 0; i < _elementsCount; i++)

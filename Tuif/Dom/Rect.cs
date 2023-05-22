@@ -5,11 +5,11 @@ public class Rect : Node
 
     public char FillChar = '█';
     public Color FillColor = Color.DefaultForeground;
-    public Rect(uint width , uint height) : base(width, height)
+    public Rect(uint width, uint height) : base(width, height)
     {
     }
-
-    public override void Render(Buffer buff) 
+    /// <inheritdoc/>
+    public override void Render(Buffer buff)
     {
         for (uint y = 0; y < _height; y++)
         {

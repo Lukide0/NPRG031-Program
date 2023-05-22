@@ -5,7 +5,7 @@ public class Checkbox : Node
     public delegate void OnChangeFunc(bool value);
 
     public bool Value = false;
-    public Color FillColor = Color.DefaultForeground;    
+    public Color FillColor = Color.DefaultForeground;
     public OnChangeFunc? OnChange;
 
 
@@ -18,14 +18,15 @@ public class Checkbox : Node
         _label = text;
     }
 
+    /// <inheritdoc/>
     public override bool HandleKey(ConsoleKeyInfo info, ref Node focusedNode)
     {
         switch (info.Key)
         {
             case ConsoleKey.Enter:
                 Value = !Value;
-                
-                if (OnChange != null) 
+
+                if (OnChange != null)
                 {
                     OnChange(Value);
                 }
@@ -42,26 +43,26 @@ public class Checkbox : Node
         focusedNode.SetFocus();
         return focusedNode != this;
     }
-
+    /// <inheritdoc/>
     public override void Render(Buffer buff)
     {
         uint centerX = (_width - (uint)_label.Length - _gap) / 2;
         uint centerY = (_height - 1) / 2;
 
-        if (Value) 
+        if (Value)
         {
             buff.Write("██", centerX + _posX, centerY + ((byte)_posY), FillColor);
         }
-        else 
+        else
         {
             buff.Write("░░", centerX + _posX, centerY + ((byte)_posY), FillColor);
         }
 
-        if (_focused) 
+        if (_focused)
         {
             buff.Write(_label, centerX + _posX + _gap, centerY + _posY, FillColor);
         }
-        else 
+        else
         {
             buff.Write(_label, centerX + _posX + _gap, centerY + _posY);
         }

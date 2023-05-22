@@ -2,6 +2,9 @@ using System.Diagnostics;
 
 namespace Tuif.Dom;
 
+/// <summary>
+/// Třída reprezentující posuvník.
+/// </summary>
 public class Slider : Node
 {
     public int Value = 0;
@@ -12,21 +15,36 @@ public class Slider : Node
     private int _minValue = 0;
     private int _step = 1;
 
+    /// <summary>
+    /// Konstruktor posuvníku s určenou šířkou.
+    /// </summary>
+    /// <param name="width">Šířka posuvníku.</param>
     public Slider(uint width) : base(width, 1)
     {
         Debug.Assert(width >= 5);
     }
 
-    public void SetStep(uint step) 
+    /// <summary>
+    /// Nastaví krok posuvníku.
+    /// </summary>
+    /// <param name="step">Krok posuvníku.</param>
+    public void SetStep(uint step)
     {
         _step = (int)step;
     }
+
+    /// <summary>
+    /// Nastaví limit hodnot posuvníku.
+    /// </summary>
+    /// <param name="min">Minimální hodnota.</param>
+    /// <param name="max">Maximální hodnota.</param>
     public void SetLimit(int min, int max)
     {
         _minValue = min;
         _maxValue = max;
     }
 
+    /// <inheritdoc/>
     public override bool HandleKey(ConsoleKeyInfo info, ref Node focusedNode)
     {
         if (info.Key == ConsoleKey.LeftArrow && Enabled)
@@ -53,18 +71,20 @@ public class Slider : Node
             focusedNode = GetParent();
             focusedNode.SetFocus();
 
-            return focusedNode != this; 
-            
+            return focusedNode != this;
         }
- 
+
         return true;
     }
+
+    /// <inheritdoc/>
     public override void UpdateSize(uint width, uint height)
     {
         _posY += (height - 1) / 2;
         _width = width;
     }
 
+    /// <inheritdoc/>
     public override void Render(Buffer buff)
     {
         float percentage = (Value / (float)_maxValue);
@@ -81,7 +101,7 @@ public class Slider : Node
             buff.Write(' ', _posX + i, _posY);
         }
 
-        if (ShowPercentage) 
+        if (ShowPercentage)
         {
             string tmp = ((int)(percentage * 100)).ToString() + '%';
             buff.Write(tmp, (uint)(_posX + (_width - tmp.Length) / 2), _posY, Color.DefaultForeground);

@@ -12,6 +12,12 @@ public class Button : Node
     public OnClickFunc? OnClick = null;
     private Frame _frame;
 
+    /// <summary>
+    /// Konstruktor tlačítka s určenou šířkou, výškou a textem.
+    /// </summary>
+    /// <param name="width">Šířka tlačítka.</param>
+    /// <param name="height">Výška tlačítka.</param>
+    /// <param name="text">Text tlačítka.</param>
     public Button(uint width, uint height, string text) : base(width, height)
     {
         _frame = new Frame(width, height);
@@ -22,12 +28,13 @@ public class Button : Node
         _frame.SetChild(Text);
     }
 
+    /// <inheritdoc/>
     public override void UpdateSize(uint width, uint height)
     {
         base.UpdateSize(width, height);
         _frame.UpdateSize(width, height);
     }
-
+    /// <inheritdoc/>
     public override bool HandleKey(ConsoleKeyInfo info, ref Node focusedNode)
     {
         switch (info.Key)
@@ -48,6 +55,9 @@ public class Button : Node
         return focusedNode != this;
     }
 
+    /// <summary>
+    /// Spustí akci při stisknutí tlačítka.
+    /// </summary>
     public void Click()
     {
         if (OnClick != null)
@@ -55,7 +65,7 @@ public class Button : Node
             OnClick();
         }
     }
-
+    /// <inheritdoc/>
     public override void Render(Buffer buff)
     {
         _frame.SetPos(_posX, _posY);

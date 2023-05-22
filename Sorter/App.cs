@@ -10,6 +10,7 @@ public class App
 {
     public Terminal Term;
 
+    // UI Elementy
     private Gridbox MainGrid;
     private Gridbox SettingsGrid;
     private Algo.Algo AlgoNode;
@@ -21,6 +22,7 @@ public class App
 
     private Switch SwitchAlgo;
 
+    // Algorimy
     private string[] _sortsName = new string[] { "Bubble sort", "Heap sort", "Counting sort", "Quick sort" };
     private Sort.SortAlgo[] _sortsFunc = new Sort.SortAlgo[] { Sort.BubbleSort, Sort.HeapSort, Sort.CountingSort, Sort.QuickSort };
 
@@ -36,19 +38,19 @@ public class App
         MainGrid.SetCell(0, 0, AlgoNode);
         MainGrid.SetCell(0, 1, SettingsGrid);
 
-
+        // Tlačítka
         ResetBtn = new Button(0, 0, "(R)eset");
         NextStepBtn = new Button(0, 0, "(N)ext step");
         RunBtn = new Button(0, 0, "Run");
         StopBtn = new Button(0, 0, "(S)top");
-
-        SwitchAlgo = new Switch(0,1);
 
         ResetBtn.OnClick = AlgoNode.Reset;
         NextStepBtn.OnClick = AlgoNode.Step;
         RunBtn.OnClick = AlgoNode.Run;
         StopBtn.OnClick = AlgoNode.Stop;
         
+        // Switch
+        SwitchAlgo = new Switch(0,1);
         SwitchAlgo.SetOptions(_sortsName);
         SwitchAlgo.OnChage = ChangeAlgo;
 

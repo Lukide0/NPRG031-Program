@@ -11,8 +11,10 @@ class Program
             return;
         }
 
-        // prepare terminal 150x50
+        // připraví terminál 150x50
         Terminal term = new Terminal(150,50);
+        term.Setup();
+
         App app = new App(term);
         app.Run();
     }

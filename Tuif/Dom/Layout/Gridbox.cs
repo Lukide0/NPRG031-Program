@@ -4,15 +4,16 @@ namespace Tuif.Dom.Layout;
 
 public class Gridbox : Node
 {
+    public uint CellWidth { get; private set; }
+    public uint CellHeight { get; private set; }
+    public Color FocusColor = new Color(0xFF0000);
+
     private Node[,] _cells;
     private uint _columns;
     private uint _rows;
-    public uint CellWidth { get; private set; }
-    public uint CellHeight { get; private set; }
     private int[] _focusedCell = new int[] { 0, 0 };
     private int[] _focusedCellPrev = new int[] { int.MaxValue, int.MaxValue };
 
-    public Color FocusColor = new Color(0xFF0000);
     public Gridbox(uint width, uint height, uint rows, uint columns) : base(width, height)
     {
         _columns = columns;
@@ -23,12 +24,19 @@ public class Gridbox : Node
         CellHeight = _height / rows;
     }
 
+    /// <summary>
+    /// Nastaví element do určité buňky.
+    /// </summary>
+    /// <param name="row"></param>
+    /// <param name="column"></param>
+    /// <param name="node">Element</param>
     public void SetCell(uint row, uint column, Node node)
     {
         node.SetParent(this);
         _cells[row, column] = node;
     }
 
+    /// <inheritdoc/>
     public override void UpdateSize(uint width, uint height)
     {
         base.UpdateSize(width, height);
@@ -40,6 +48,8 @@ public class Gridbox : Node
     {
         return _cells[_focusedCell[0], _focusedCell[1]];
     }
+
+    /// <inheritdoc/>
     public override bool HandleKey(ConsoleKeyInfo info, ref Node focusedNode)
     {
         switch (info.Key)
@@ -105,7 +115,7 @@ public class Gridbox : Node
         Terminal.RequestRender();
         return true;
     }
-
+    /// <inheritdoc/>
     public override void Render(Buffer buff)
     {
         char h = BorderChar.LookupChar(Border.LeftSingle | Border.RightSingle);

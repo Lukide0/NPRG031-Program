@@ -14,7 +14,7 @@ public class Image : Node
 
     public Image() : base(0,0)
      {}
-
+ /// <inheritdoc/>
     public override void UpdateSize(uint width, uint height)
     {
         base.UpdateSize(width, height);
@@ -29,7 +29,11 @@ public class Image : Node
             _offsetY = (uint)(height - _imgHeight) / 2;
         }
     }
-
+    /// <summary>
+    /// Načte obrázek
+    /// </summary>
+    /// <param name="path">Cesta k obrázku</param>
+    /// <returns>True, pokus se podařilo načíst obrázek</returns>
     public bool Load(string path) 
     {
         if (!File.Exists(path)) 
@@ -76,7 +80,7 @@ public class Image : Node
 
     public uint GetImgWidth() => _imgWidth / 2;
     public uint GetImgHeight() => _imgHeight;
-
+ /// <inheritdoc/>
     public override void Render(Buffer buff)
     {
         if (_pixels == null) 

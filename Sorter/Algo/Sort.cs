@@ -1,5 +1,8 @@
 namespace Sorter.Algo;
 
+/// <summary>
+/// Instrukce pro práci s polem
+/// </summary>
 public class SortData
 {
     public enum Commands
@@ -14,10 +17,13 @@ public class SortData
  
     public static Tuif.Color HighlightAColor = new Tuif.Color(0xFEC29A);
     public static Tuif.Color HighlightBColor = new Tuif.Color(0xADE7FF);
+    
     public int IndexA;
-    public Tuif.Color ColorA = SwapAColor;
     public int IndexB;
+    
+    public Tuif.Color ColorA = SwapAColor;
     public Tuif.Color ColorB = SwapBColor;
+    
     public Commands Command;
 
     public SortData(int a, int b, Tuif.Color colorA, Tuif.Color colorB, Commands command = Commands.Swap) 
@@ -52,6 +58,9 @@ public class SortData
     }
 }
 
+/// <summary>
+/// Statická třída obsahující třídící algoritmy
+/// </summary>
 public static class Sort
 {
     public delegate List<SortData> SortAlgo(int[] elements);

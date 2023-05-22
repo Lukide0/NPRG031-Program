@@ -29,21 +29,22 @@ public class Frame : Node
         _child = child;
         SetParent(_child.GetParent());
     }
-
+    /// <inheritdoc/>
     public override void UpdateSize(uint width, uint height)
     {
         base.UpdateSize(width, height);
-        
-        if (_child is not null) 
+
+        if (_child is not null)
         {
             _child.UpdateSize(_width - 2, _height - 2);
             _child.SetPos(_posX + 1, _posY + 1);
         }
     }
 
+    /// <inheritdoc/>
     public override bool HandleKey(ConsoleKeyInfo info, ref Node focusedNode)
     {
-        if (_child is null) 
+        if (_child is null)
         {
             return false;
         }
@@ -51,9 +52,11 @@ public class Frame : Node
         focusedNode = _child;
         RemoveFocus();
         focusedNode.SetFocus();
-        
+
         return focusedNode.HandleKey(info, ref focusedNode);
     }
+
+    /// <inheritdoc/>
     public override void Render(Buffer buff)
     {
         char verticalCh, horizontalCh, topLCh, topRCh, bottomLCh, bottomRCh;
@@ -87,7 +90,7 @@ public class Frame : Node
         {
             buff.Foreground[index + i] = BorderColor;
             buff.Data[index + i] = BorderChar.MergeChars(buff.Data[index + i], horizontalCh);
-            
+
             buff.Data[indexBottom + i] = BorderChar.MergeChars(buff.Data[indexBottom + i], horizontalCh);
             buff.Foreground[indexBottom + i] = BorderColor;
         }
@@ -99,7 +102,7 @@ public class Frame : Node
 
             buff.Foreground[tmp] = BorderColor;
             buff.Data[tmp] = BorderChar.MergeChars(buff.Data[tmp], verticalCh);
-     
+
             buff.Data[tmp + _width - 1] = BorderChar.MergeChars(buff.Data[tmp + _width - 1], verticalCh);
             buff.Foreground[tmp + _width - 1] = BorderColor;
         }
