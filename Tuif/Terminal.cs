@@ -3,12 +3,12 @@ using System.Text;
 
 using Tuif.Event;
 
-
 namespace Tuif;
 
 public class Terminal
 {
 
+    
     public Buffer Buffer { get; }
 
     private Dom.Node? _document;
@@ -26,8 +26,6 @@ public class Terminal
     private static bool _run = false;
     private static bool _blockRender = false;
     private static bool _render = false;
-
-    private static Mutex _mutex = new Mutex();
 
     public Terminal(uint width, uint height)
     {
@@ -55,23 +53,17 @@ public class Terminal
 
     public static void SetBlockRead()
     {
-        _mutex.WaitOne();
         _blockRender = true;
-        _mutex.ReleaseMutex();
     }
 
     public static void SetNonBlockRead()
     {
-        _mutex.WaitOne();
         _blockRender = false;
-        _mutex.ReleaseMutex();
     }
 
     public static void RequestRender()
     {
-        _mutex.WaitOne();
         _render = true;
-        _mutex.ReleaseMutex();
     }
 
     public void HideCursor()
@@ -149,9 +141,7 @@ public class Terminal
                 lastTime = timeNow;
                 if (_frameManager.Count() != 0)
                 {
-                    _mutex.WaitOne();
                     _render |= _frameManager.NotifyAll(delta);
-                    _mutex.ReleaseMutex();
                 }
             }
 
@@ -165,7 +155,7 @@ public class Terminal
                     switch (info.Key)
                     {
                         case ConsoleKey.DownArrow:
-                            _screenOffset = (uint)Math.Min(Math.Max(0,Buffer.Height - Console.BufferHeight - 1), _screenOffset + 1);
+                            _screenOffset = (uint)Math.Min(Math.Max(0, Buffer.Height - Console.BufferHeight - 1), _screenOffset + 1);
                             handled = true;
                             RequestRender();
                             break;
@@ -202,17 +192,17 @@ public class Terminal
 
     public void AddToRender(Dom.Node node, bool frontLayer = false)
     {
-        if (frontLayer) 
+        if (frontLayer)
         {
             _frontLayer.Add(node);
         }
-        else 
+        else
         {
             _backLayer.Add(node);
         }
     }
 
-    public void RemoveFromRender(Dom.Node node) 
+    public void RemoveFromRender(Dom.Node node)
     {
         _frontLayer.Remove(node);
         _backLayer.Remove(node);
@@ -288,7 +278,7 @@ public class Terminal
     }
 #else
     public static bool Init() => true;
-    private static void SetWindowSize(int width, int height) 
+    private static void SetWindowSize(int width, int height)
     {
         Console.Write($"\x1b[8;{height};{width + 1}t");
     }
