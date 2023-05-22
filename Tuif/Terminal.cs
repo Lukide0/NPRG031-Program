@@ -26,6 +26,7 @@ public class Terminal
     /// Horní odsazení
     /// </summary>
     private uint _screenOffsetY = 0;
+    private uint _screenOffsetX = 0;
 
     /// <summary>
     /// List Node v zadní vrstvě
@@ -174,26 +175,46 @@ public class Terminal
         // Posune kursor do levého horního rohu
         Console.Write("\x1b[0;0H");
 
-        uint startIndex = (Buffer.Width * _screenOffsetY);
+        uint startIndex = (Buffer.Width * _screenOffsetY) + _screenOffsetX;
 
         StringBuilder sb = new StringBuilder($"\x1b[48;2;{Buffer.Background[startIndex].GetSequence()};38;2;{Buffer.Foreground[startIndex].GetSequence()}m{Buffer.Data[startIndex]}");
 
+        uint minWidth = Math.Min(Buffer.Width, (uint)Console.BufferWidth);
+        uint lastCheck = startIndex;
+        uint prevPixel = startIndex;
+
         for (uint i = startIndex + 1; i < Buffer.Size; ++i)
         {
-            if (i % Buffer.Width == 0)
+            if ((i - lastCheck) % minWidth == 0)
+            {
+                prevPixel = i - 1;
+                i += Buffer.Width - minWidth;
+
+                lastCheck = i;
+
+                if (i >= Buffer.Size) 
+                {
+                    break;
+                }
+
                 sb.Append("\x1b[1E");
 
-            if (Buffer.Foreground[i] != Buffer.Foreground[i - 1])
+            }
+
+
+            if (Buffer.Foreground[i] != Buffer.Foreground[prevPixel])
             {
                 sb.Append($"\x1b[38;2;{Buffer.Foreground[i].GetSequence()}m");
             }
 
-            if (Buffer.Background[i] != Buffer.Background[i - 1])
+            if (Buffer.Background[i] != Buffer.Background[prevPixel])
             {
                 sb.Append($"\x1b[48;2;{Buffer.Background[i].GetSequence()}m");
             }
 
             sb.Append(Buffer.Data[i]);
+
+            prevPixel = i;
 
         }
 
@@ -244,6 +265,16 @@ public class Terminal
                             break;
                         case ConsoleKey.UpArrow:
                             _screenOffsetY = (uint)Math.Max(0, (int)_screenOffsetY - 1);
+                            handled = true;
+                            RequestRender();
+                            break;
+                        case ConsoleKey.LeftArrow:
+                            _screenOffsetX = (uint)Math.Max(0, (int)_screenOffsetX - 1);
+                            handled = true;
+                            RequestRender();
+                            break;
+                        case ConsoleKey.RightArrow:
+                            _screenOffsetX = (uint)Math.Min(Math.Max(0, Buffer.Width - Console.BufferWidth), _screenOffsetX + 1);
                             handled = true;
                             RequestRender();
                             break;
@@ -321,7 +352,7 @@ public class Terminal
 
     #region Configuration
 
-#if WINDOWS
+#if OS_WINDOWS
     private const int STDIN_HANDLE = -10;
     private const int STDOUT_HANDLE = -11;
 
@@ -368,9 +399,7 @@ public class Terminal
     {
         try
         {
-            Console.WindowWidth = width;
-            Console.WindowHeight = height;
-
+            Console.SetWindowSize(width, height);
         }
         catch (IOException)
         { }
