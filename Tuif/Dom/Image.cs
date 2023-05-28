@@ -14,7 +14,7 @@ public class Image : Node
 
     public Image() : base(0,0)
      {}
- /// <inheritdoc/>
+    /// <inheritdoc/>
     public override void UpdateSize(uint width, uint height)
     {
         base.UpdateSize(width, height);

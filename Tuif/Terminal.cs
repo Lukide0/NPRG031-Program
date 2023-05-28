@@ -333,6 +333,15 @@ public class Terminal
     }
 
     /// <summary>
+    /// Odebere všechny Node z vykreslení
+    /// </summary>
+    public void RemoveAllFromRender()
+    {
+        _frontLayer.Clear();
+        _backLayer.Clear();
+    }
+
+    /// <summary>
     /// Zastavý hlavní smyčku
     /// </summary>
     public static void StopLoop()

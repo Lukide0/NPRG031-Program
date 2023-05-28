@@ -22,7 +22,7 @@ public class App
 
     private Switch SwitchAlgo;
 
-    // Algorimy
+    // Algoritmy
     private string[] _sortsName = new string[] { "Bubble sort", "Heap sort", "Counting sort", "Quick sort", "Merge sort" };
     private Sort.SortAlgo[] _sortsFunc = new Sort.SortAlgo[] { Sort.BubbleSort, Sort.HeapSort, Sort.CountingSort, Sort.QuickSort, Sort.MergeSort };
 
@@ -73,7 +73,6 @@ public class App
 
     public void Run()
     {
-        Term.Setup();
         Terminal.SetBlockRead();
         Term.Loop();
         Term.Clean();
