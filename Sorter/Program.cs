@@ -29,18 +29,24 @@ class Program
 
     private static void StartScreen(Terminal term) 
     {
+        var frame = new Tuif.Dom.Layout.Gridbox(0,0, 2, 1);
         var img = new Tuif.Dom.Image();
         var path = Path.GetFullPath(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, @"../../../Data/logo.png"));
 
         if (img.Load(path))
         {
-            img.UpdateSize((uint)Console.BufferWidth, (uint)Console.BufferHeight);
-            term.AddToRender(img);
+
+            frame.SetCell(0,0, img);
+            frame.SetCell(1,0, new Tuif.Dom.Text("Press any key", Color.DefaultForeground));
+
+            term.AddToRender(frame);
             term.Render();
 
-            Thread.Sleep(1000);
 
-            term.RemoveFromRender(img);
+            Console.ReadKey();
+
+            term.RemoveFromRender(frame);
+            term.Buffer.Clear();
         }
     }
 }

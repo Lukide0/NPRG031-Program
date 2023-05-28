@@ -41,7 +41,7 @@ public class App
         // Tlačítka
         ResetBtn = new Button(0, 0, "(R)eset");
         NextStepBtn = new Button(0, 0, "(N)ext step");
-        RunBtn = new Button(0, 0, "Run");
+        RunBtn = new Button(0, 0, "R(u)n");
         StopBtn = new Button(0, 0, "(S)top");
 
         ResetBtn.OnClick = AlgoNode.Reset;

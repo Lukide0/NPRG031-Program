@@ -164,11 +164,13 @@ public class Terminal
     {
         foreach (var node in _backLayer)
         {
+            node.UpdateSize(Buffer.Width, Buffer.Height);
             node.Render(Buffer);
         }
 
         foreach (var node in _frontLayer)
         {
+            node.UpdateSize(Buffer.Width, Buffer.Height);
             node.Render(Buffer);
         }
 

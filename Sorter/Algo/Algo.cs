@@ -152,6 +152,9 @@ public class Algo : Tuif.Dom.Node
             case ConsoleKey.S:
                 Stop();
                 break;
+            case ConsoleKey.U:
+                Run();
+                break;
             default:
                 break;
         }
