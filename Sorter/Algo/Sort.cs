@@ -11,22 +11,22 @@ public class SortData
         Highlight,
         Set,
     };
- 
+
     public static Tuif.Color SwapAColor = new Tuif.Color(0xFE7F2D);
     public static Tuif.Color SwapBColor = new Tuif.Color(0x8B80F9);
- 
+
     public static Tuif.Color HighlightAColor = new Tuif.Color(0xFEC29A);
     public static Tuif.Color HighlightBColor = new Tuif.Color(0xADE7FF);
-    
+
     public int IndexA;
     public int IndexB;
-    
+
     public Tuif.Color ColorA = SwapAColor;
     public Tuif.Color ColorB = SwapBColor;
-    
+
     public Commands Command;
 
-    public SortData(int a, int b, Tuif.Color colorA, Tuif.Color colorB, Commands command = Commands.Swap) 
+    public SortData(int a, int b, Tuif.Color colorA, Tuif.Color colorB, Commands command = Commands.Swap)
     {
         IndexA = a;
         ColorA = colorA;
@@ -42,17 +42,17 @@ public class SortData
         Command = command;
     }
 
-    public static SortData Swap(int a, int b) 
+    public static SortData Swap(int a, int b)
     {
         return new SortData(a, b, SortData.Commands.Swap);
     }
 
-    public static SortData Highlight(int a, int b) 
+    public static SortData Highlight(int a, int b)
     {
         return new SortData(a, b, HighlightAColor, HighlightBColor, Commands.Highlight);
     }
 
-    public static SortData Set(int a, int value) 
+    public static SortData Set(int a, int value)
     {
         return new SortData(a, value, Commands.Set);
     }
@@ -190,7 +190,7 @@ public static class Sort
         return data;
     }
 
-    public static List<SortData> QuickSort(int[] elements) 
+    public static List<SortData> QuickSort(int[] elements)
     {
         List<SortData> data = new List<SortData>();
 
@@ -229,13 +229,85 @@ public static class Sort
             }
         }
 
-        if (leftIndex < j) 
+        if (leftIndex < j)
         {
             QuickSortArray(array, leftIndex, j, data);
         }
-        if (i < rightIndex) 
+        if (i < rightIndex)
         {
             QuickSortArray(array, i, rightIndex, data);
+        }
+    }
+
+    public static List<SortData> MergeSort(int[] elements)
+    {
+        List<SortData> data = new List<SortData>();
+
+        MergeSortGen(elements, 0, elements.Length - 1, data);
+
+        return data;
+    }
+
+
+    private static void MergeInPlace(int[] arr, int start, int mid, int end, List<SortData> data)
+    {
+        // https://www.geeksforgeeks.org/in-place-merge-sort/
+
+        int start2 = mid + 1;
+
+        // If the direct merge is already sorted
+        if (arr[mid] <= arr[start2])
+        {
+            return;
+        }
+
+        // Two pointers to maintain start
+        // of both arrays to merge
+        while (start <= mid && start2 <= end)
+        {
+
+            // If element 1 is in right place
+            if (arr[start] <= arr[start2])
+            {
+                start++;
+            }
+            else
+            {
+                int value = arr[start2];
+                int index = start2;
+
+                // Shift all the elements between element 1
+                // element 2, right by 1.
+                while (index != start)
+                {
+                    data.Add(SortData.Swap(index, index - 1));
+                    arr[index] = arr[index - 1];
+                    index--;
+                }
+                data.Add(SortData.Set(start, value));
+                arr[start] = value;
+
+                // Update all the pointers
+                start++;
+                mid++;
+                start2++;
+            }
+        }
+    }
+
+    private static void MergeSortGen(int[] arr, int l, int r, List<SortData> data)
+    {
+        if (l < r)
+        {
+
+            // Same as (l + r) / 2, but avoids overflow
+            // for large l and r
+            int m = l + (r - l) / 2;
+
+            // Sort first and second halves
+            MergeSortGen(arr, l, m, data);
+            MergeSortGen(arr, m + 1, r, data);
+            MergeInPlace(arr, l, m, r, data);
         }
     }
 }
