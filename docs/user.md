@@ -23,7 +23,7 @@ Pokud je terminál je menší než 150x75 znaků, tak můžete použít následu
 
 ### Přepnutí algoritmu
 
-Pro přepnuní algoritmu slouží prvek `Switch`, který se ovládá pomocí <kbd>←</kbd>,<kbd>→</kbd> nebo <kbd>Enter</kbd>.
+Pro přepnuntí algoritmu slouží prvek `Switch`, který se ovládá pomocí <kbd>←</kbd>,<kbd>→</kbd> nebo <kbd>Enter</kbd>.
 ![Ukazka](./algo_change.gif)
 
 ### Ovládání animace
