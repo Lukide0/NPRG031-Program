@@ -39,7 +39,7 @@ Pro ovládání animace je zde několik tlačítek:
 - Stop
   - Zastaví animaci
 
-Animaci můžeme ovládat také pomocí kláves, když aktivujete prvek s elementy na se třídění.
+Animaci můžeme ovládat také pomocí kláves, když aktivujete prvek s elementy na setřídění.
 
 | Klávesová zkratka | Popis                          |
 | ----------------- | ------------------------------ |
