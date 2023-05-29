@@ -4,7 +4,7 @@
 
 | Cesta       | Popis                           |
 | ----------- | ------------------------------- |
-| Tuif        | Terminal framwork               |
+| Tuif        | Terminal framework              |
 | Tuif/Dom    | Elementy                        |
 | Tuif/Event  | Manager událostí                |
 | Sorter      | Aplikace na vizualizaci třídění |
@@ -22,8 +22,8 @@ Jednoduchý framework na práci s terminálem. Práce s terminálem je v souboru
 
 Renderování probíhá v případě, že se někde zavolá `Terminal::RequestRender()` nebo pokud interactivní komponenta/element si vyžádá překreslení.
 
-- Terminál obsahuje 2 vrstvy (front a back).
-  - Nejdříve se zobrazí co je v back vrstvě a poté ve front.
+- Terminál obsahuje 2 vrstvy (*front* a *back*).
+  - Nejdříve se zobrazí co je v *back* vrstvě a poté ve *front*.
 
 ### Terminál
 
